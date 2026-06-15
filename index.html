@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en" style="background:#0E0B0E;">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Vibe Is</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300;400&display=swap');
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html, body {
+  height: 100%;
+  background: #0E0B0E !important;
+  color: #EDE8F5 !important;
+  font-family: 'Jost', sans-serif;
+  font-weight: 300;
+  overflow-x: hidden;
+}
+
+/* ── NAV BAR ── */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 36px;
+  background: rgba(14,11,14,0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.nav-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 17px;
+  font-weight: 300;
+  letter-spacing: 2px;
+  color: #EDE8F5 !important;
+  text-decoration: none;
+}
+
+.nav-links {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.nav-pill {
+  display: inline-block;
+  padding: 8px 18px;
+  border-radius: 100px;
+  font-size: 9px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-weight: 400;
+  transition: all 0.25s;
+  white-space: nowrap;
+}
+
+.nav-pill.barefoot {
+  background: rgba(200,137,138,0.1);
+  border: 1px solid rgba(200,137,138,0.25);
+  color: #C8898A !important;
+}
+
+.nav-pill.barefoot:hover {
+  background: rgba(200,137,138,0.2);
+  border-color: rgba(200,137,138,0.5);
+}
+
+.nav-pill.asmr {
+  background: rgba(140,100,200,0.1);
+  border: 1px solid rgba(140,100,200,0.25);
+  color: #C4B0E8 !important;
+}
+
+.nav-pill.asmr:hover {
+  background: rgba(140,100,200,0.2);
+  border-color: rgba(140,100,200,0.5);
+}
+
+/* ── BACKGROUND AMBIENCE ── */
+.bg-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  pointer-events: none;
+}
+
+.orb-left {
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(200,137,138,0.08) 0%, transparent 65%);
+  top: 10%; left: -100px;
+  animation: driftL 20s ease-in-out infinite;
+}
+
+.orb-right {
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(140,100,200,0.08) 0%, transparent 65%);
+  top: 10%; right: -100px;
+  animation: driftR 24s ease-in-out infinite;
+}
+
+.orb-center {
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(170,120,170,0.05) 0%, transparent 65%);
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  animation: breathe 8s ease-in-out infinite;
+}
+
+@keyframes driftL {
+  0%, 100% { transform: translate(0,0); }
+  50% { transform: translate(30px, 40px); }
+}
+@keyframes driftR {
+  0%, 100% { transform: translate(0,0); }
+  50% { transform: translate(-30px, 30px); }
+}
+@keyframes breathe {
+  0%, 100% { opacity: 0.4; transform: translate(-50%,-50%) scale(1); }
+  50% { opacity: 0.8; transform: translate(-50%,-50%) scale(1.15); }
+}
+
+/* ── MAIN HERO ── */
+.hero {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 100px 32px 60px;
+}
+
+.hero-tag {
+  font-size: 9px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: rgba(237,232,245,0.35) !important;
+  margin-bottom: 28px;
+  font-weight: 400;
+}
+
+.hero-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(52px, 12vw, 110px);
+  font-weight: 300;
+  line-height: 0.95;
+  letter-spacing: -2px;
+  color: #EDE8F5 !important;
+  margin-bottom: 6px;
+}
+
+.hero-title em {
+  font-style: italic;
+  background: linear-gradient(135deg, #C8898A, #C4B0E8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-divider {
+  width: 1px;
+  height: 48px;
+  background: linear-gradient(to bottom, rgba(237,232,245,0.2), transparent);
+  margin: 36px auto;
+}
+
+.hero-sub {
+  font-size: 13px;
+  color: rgba(237,232,245,0.4) !important;
+  letter-spacing: 1px;
+  margin-bottom: 56px;
+  font-weight: 300;
+}
+
+/* ── TWO DOORS ── */
+.doors {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.door {
+  position: relative;
+  border-radius: 20px;
+  padding: 36px 28px;
+  text-decoration: none;
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+  display: block;
+}
+
+.door:hover {
+  transform: translateY(-6px);
+}
+
+.door::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.door-barefoot {
+  background: rgba(200,137,138,0.06);
+  border: 1px solid rgba(200,137,138,0.18);
+  box-shadow: 0 4px 32px rgba(200,137,138,0.08);
+}
+
+.door-barefoot:hover {
+  box-shadow: 0 20px 60px rgba(200,137,138,0.18);
+  border-color: rgba(200,137,138,0.35);
+}
+
+.door-barefoot::before {
+  background: radial-gradient(ellipse at 50% 0%, rgba(200,137,138,0.08) 0%, transparent 70%);
+}
+
+.door-barefoot:hover::before { opacity: 1; }
+
+.door-asmr {
+  background: rgba(140,100,200,0.06);
+  border: 1px solid rgba(140,100,200,0.18);
+  box-shadow: 0 4px 32px rgba(140,100,200,0.08);
+}
+
+.door-asmr:hover {
+  box-shadow: 0 20px 60px rgba(140,100,200,0.18);
+  border-color: rgba(140,100,200,0.35);
+}
+
+.door-asmr::before {
+  background: radial-gradient(ellipse at 50% 0%, rgba(140,100,200,0.08) 0%, transparent 70%);
+}
+
+.door-asmr:hover::before { opacity: 1; }
+
+.door-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+}
+
+.door-icon {
+  font-size: 28px;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.door-label {
+  font-size: 8.5px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  font-weight: 400;
+}
+
+.door-barefoot .door-label { color: rgba(200,137,138,0.7) !important; }
+.door-asmr .door-label { color: rgba(196,176,232,0.7) !important; }
+
+.door-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 26px;
+  font-weight: 300;
+  line-height: 1;
+}
+
+.door-barefoot .door-name { color: #E8B0B0 !important; }
+.door-asmr .door-name { color: #C4B0E8 !important; }
+
+.door-desc {
+  font-size: 11.5px;
+  line-height: 1.7;
+  color: rgba(237,232,245,0.35) !important;
+  max-width: 160px;
+}
+
+.door-arrow {
+  font-size: 11px;
+  letter-spacing: 2px;
+  margin-top: 8px;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.25s, transform 0.25s;
+}
+
+.door-barefoot .door-arrow { color: #C8898A !important; }
+.door-asmr .door-arrow { color: #C4B0E8 !important; }
+
+.door:hover .door-arrow {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── BOTTOM LINE ── */
+.bottom-line {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 40px 32px 48px;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(237,232,245,0.15) !important;
+}
+
+/* ── MOBILE ── */
+@media (max-width: 520px) {
+  .doors { grid-template-columns: 1fr; max-width: 320px; }
+  .nav { padding: 16px 20px; }
+  .nav-logo { font-size: 14px; }
+  .hero-title { font-size: clamp(44px, 14vw, 80px); }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <span class="nav-logo">Your Vibe Is</span>
+  <div class="nav-links">
+    <a href="welcome-guide.html" class="nav-pill barefoot">👣 Barefoot</a>
+    <a href="asmr-guide.html" class="nav-pill asmr">🎧 Voice</a>
+  </div>
+</nav>
+
+<!-- BACKGROUND -->
+<div class="bg-layer">
+  <div class="orb orb-left"></div>
+  <div class="orb orb-right"></div>
+  <div class="orb orb-center"></div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">Private Channels</div>
+
+  <div class="hero-title">
+    Your<br>Vibe<br><em>Is.</em>
+  </div>
+
+  <div class="hero-divider"></div>
+
+  <p class="hero-sub">Two doors. Choose yours.</p>
+
+  <div class="doors">
+
+    <a href="welcome-guide.html" class="door door-barefoot">
+      <div class="door-inner">
+        <span class="door-icon">👣</span>
+        <div class="door-label">Channel One</div>
+        <div class="door-name">Barefoot</div>
+        <div class="door-desc">Visual. Private. Disappears. Weekly drops you voted for.</div>
+        <div class="door-arrow">Enter →</div>
+      </div>
+    </a>
+
+    <a href="asmr-guide.html" class="door door-asmr">
+      <div class="door-inner">
+        <span class="door-icon">🎧</span>
+        <div class="door-label">Channel Two</div>
+        <div class="door-name">Voice</div>
+        <div class="door-desc">Audio. Intimate. Before sleep. A voice just for you.</div>
+        <div class="door-arrow">Enter →</div>
+      </div>
+    </a>
+
+  </div>
+</div>
+
+<div class="bottom-line">yourvibeis · private · members only</div>
+
+</body>
+</html>

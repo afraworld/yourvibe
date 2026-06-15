@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en" style="background:#0D0A12 !important;">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Before You Sleep — Private Channel</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300;400&display=swap');
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; background: #0D0A12 !important; }
+
+:root {
+  --bg:          #0D0A12;
+  --surface:     #13101A;
+  --card:        #1A1624;
+  --card-hover:  #1F1B2C;
+  --text:        #EDE8F5;
+  --soft:        #A899C0;
+  --muted:       #5E5470;
+  --lav:         #C4B0E8;
+  --lav-deep:    #8B6FBB;
+  --lav-glow:    rgba(180,150,230,0.12);
+  --lav-pale:    rgba(196,176,232,0.08);
+  --line:        rgba(180,150,230,0.1);
+  --shadow:      0 4px 32px rgba(100,60,160,0.15), 0 1px 4px rgba(100,60,160,0.08);
+  --shadow-lg:   0 20px 60px rgba(100,60,160,0.25), 0 4px 20px rgba(100,60,160,0.12);
+  --glow:        0 0 40px rgba(180,150,230,0.08);
+}
+
+body {
+  background: #0D0A12 !important;
+  color: #EDE8F5 !important;
+  font-family: 'Jost', sans-serif;
+  font-weight: 300;
+  font-size: 15px;
+  line-height: 1.8;
+  overflow-x: hidden;
+}
+
+/* ── NOISE TEXTURE OVERLAY ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  opacity: 0.4;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 80px 32px;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* background aurora */
+.aurora {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+}
+.a1 {
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(130,80,200,0.12) 0%, transparent 65%);
+  top: -150px; left: -150px;
+  animation: drift1 18s ease-in-out infinite;
+}
+.a2 {
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(160,100,220,0.1) 0%, transparent 65%);
+  bottom: -100px; right: -100px;
+  animation: drift2 22s ease-in-out infinite;
+}
+.a3 {
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(100,60,180,0.08) 0%, transparent 65%);
+  top: 50%; left: 60%;
+  animation: drift1 14s ease-in-out infinite reverse;
+}
+
+@keyframes drift1 {
+  0%, 100% { transform: translate(0,0) scale(1); }
+  33%       { transform: translate(40px,-30px) scale(1.05); }
+  66%       { transform: translate(-20px,35px) scale(0.97); }
+}
+@keyframes drift2 {
+  0%, 100% { transform: translate(0,0); }
+  50%       { transform: translate(-35px,-40px); }
+}
+
+/* breathing center glow */
+.center-glow {
+  position: absolute;
+  width: 500px; height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(150,100,220,0.07) 0%, transparent 60%);
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  animation: breathe 6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes breathe {
+  0%, 100% { opacity: 0.5; transform: translate(-50%,-50%) scale(1); }
+  50%       { opacity: 1; transform: translate(-50%,-50%) scale(1.08); }
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 2;
+  max-width: 600px;
+}
+
+.hero-tag {
+  font-size: 9px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: #C4B0E8 !important;
+  margin-bottom: 36px;
+  font-weight: 400;
+  opacity: 0.8;
+}
+
+.hero h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(48px, 10vw, 86px);
+  font-weight: 300;
+  line-height: 1.0;
+  color: #EDE8F5 !important;
+  margin-bottom: 8px;
+  letter-spacing: -1px;
+}
+
+.hero h1 em {
+  font-style: italic;
+  color: #C4B0E8 !important;
+}
+
+/* thin shimmer line */
+.shimmer-line {
+  width: 60px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--lav), transparent);
+  margin: 32px auto;
+  animation: shimmerline 4s ease-in-out infinite;
+}
+
+@keyframes shimmerline {
+  0%, 100% { opacity: 0.3; width: 40px; }
+  50%       { opacity: 0.8; width: 80px; }
+}
+
+.hero-sub {
+  font-size: 14px;
+  color: #A899C0 !important;
+  line-height: 1.95;
+  max-width: 380px;
+  margin: 0 auto 56px;
+  letter-spacing: 0.3px;
+}
+
+.scroll-cue {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #5E5470 !important;
+}
+
+.scroll-line {
+  width: 1px;
+  height: 48px;
+  background: linear-gradient(to bottom, var(--lav-deep), transparent);
+  animation: scrollpulse 2.5s ease-in-out infinite;
+}
+
+@keyframes scrollpulse {
+  0%, 100% { opacity: 0.2; transform: scaleY(1); }
+  50%       { opacity: 0.7; transform: scaleY(1.2); }
+}
+
+/* ── LAYOUT ── */
+.wrap {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 0 28px;
+  position: relative;
+  z-index: 1;
+}
+
+.section {
+  padding: 88px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.section:last-of-type { border-bottom: none; }
+
+.tag {
+  font-size: 9px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: #8B6FBB !important;
+  font-weight: 400;
+  margin-bottom: 18px;
+  opacity: 0.9;
+}
+
+.section h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(30px, 5vw, 46px);
+  font-weight: 300;
+  line-height: 1.15;
+  color: #EDE8F5 !important;
+  margin-bottom: 24px;
+}
+
+.section h2 em {
+  font-style: italic;
+  color: #C4B0E8 !important;
+}
+
+.body-text {
+  font-size: 14.5px;
+  color: #A899C0 !important;
+  line-height: 1.95;
+  margin-bottom: 14px;
+  max-width: 560px;
+}
+
+/* ── WEEKLY RHYTHM ── */
+.rhythm-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 14px;
+  margin: 44px 0;
+}
+
+.rhythm-card {
+  background: #1A1624 !important;
+  border-radius: 16px;
+  padding: 28px 22px;
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+  transition: transform 0.3s, box-shadow 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.rhythm-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--lav-deep), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.rhythm-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.rhythm-card:hover::before { opacity: 1; }
+
+.rhythm-card.highlight {
+  background: linear-gradient(145deg, #1E1830, #1A1624);
+  border-color: rgba(180,150,230,0.2);
+}
+
+.rhythm-card.highlight::before { opacity: 0.6; }
+
+.r-day {
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #5E5470 !important;
+  margin-bottom: 14px;
+  font-weight: 400;
+}
+
+.rhythm-card.highlight .r-day { color: #C4B0E8 !important; }
+
+.r-icon {
+  font-size: 24px;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.r-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 17px;
+  font-weight: 300;
+  color: #EDE8F5 !important;
+  margin-bottom: 6px;
+}
+
+.r-desc {
+  font-size: 12px;
+  color: #5E5470 !important;
+  line-height: 1.6;
+}
+
+.rhythm-card.highlight .r-desc { color: #A899C0 !important; }
+
+.body-note {
+  font-size: 13px;
+  color: #A899C0 !important;
+  line-height: 1.9;
+  margin-bottom: 12px;
+  padding-left: 16px;
+  border-left: 1px solid var(--lav-deep);
+  opacity: 0.85;
+}
+
+.body-note strong {
+  color: #C4B0E8 !important;
+  font-weight: 400;
+}
+
+/* ── TIERS ── */
+.tiers {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-top: 44px;
+}
+
+.tier {
+  background: #1A1624 !important;
+  border-radius: 20px;
+  padding: 36px 32px;
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.tier:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+  background: #1F1B2C !important;
+}
+
+.tier::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  border-radius: 20px 20px 0 0;
+}
+
+.t1::before { background: linear-gradient(90deg, #7B5BC4, #B090E0, #7B5BC4); }
+.t2::before { background: linear-gradient(90deg, #5B4A8A, #8B70C0, #5B4A8A); }
+.t3::before { background: linear-gradient(90deg, #4A3A70, #7060A8, #4A3A70); }
+.t4::before { background: linear-gradient(90deg, #3A2A58, #604890, #3A2A58); }
+
+/* inner glow top-left corner */
+.tier::after {
+  content: '';
+  position: absolute;
+  top: -60px; left: -60px;
+  width: 180px; height: 180px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(150,100,220,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.tier-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 18px;
+  gap: 16px;
+}
+
+.tier-badge {
+  font-size: 8.5px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: #5E5470 !important;
+  margin-bottom: 7px;
+  font-weight: 400;
+}
+
+.tier-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 26px;
+  font-weight: 300;
+  color: #EDE8F5 !important;
+  line-height: 1;
+}
+
+.cost-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 34px;
+  font-weight: 300;
+  color: #C4B0E8 !important;
+  line-height: 1;
+  text-align: right;
+}
+
+.cost-period {
+  font-size: 10px;
+  color: #5E5470 !important;
+  margin-top: 4px;
+  text-align: right;
+  letter-spacing: 1px;
+}
+
+.tier-desc {
+  font-size: 13.5px;
+  color: #A899C0 !important;
+  line-height: 1.85;
+  margin-bottom: 22px;
+}
+
+.tier-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 28px;
+}
+
+.tier-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 13px;
+  color: #EDE8F5 !important;
+  line-height: 1.5;
+  opacity: 0.85;
+}
+
+.tier-list li::before {
+  content: '';
+  width: 3px; height: 3px;
+  border-radius: 50%;
+  background: var(--lav-deep);
+  flex-shrink: 0;
+  margin-top: 8px;
+}
+
+.tier-btn {
+  display: inline-block;
+  padding: 13px 32px;
+  border-radius: 100px;
+  font-size: 10px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-weight: 400;
+  font-family: 'Jost', sans-serif;
+  background: rgba(140,100,200,0.12);
+  color: #C4B0E8 !important;
+  border: 1px solid rgba(180,150,230,0.2);
+  transition: all 0.25s;
+}
+
+.tier-btn:hover {
+  background: rgba(140,100,200,0.22);
+  border-color: rgba(180,150,230,0.4);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 24px rgba(140,100,200,0.2);
+}
+
+/* ── RULES ── */
+.rules {
+  display: flex;
+  flex-direction: column;
+  margin-top: 44px;
+}
+
+.rule {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 32px;
+  padding: 24px 0;
+  border-bottom: 1px solid var(--line);
+  align-items: start;
+}
+
+.rule:last-child { border-bottom: none; }
+
+.rule-q {
+  font-size: 12.5px;
+  color: #C4B0E8 !important;
+  font-weight: 400;
+  line-height: 1.5;
+  opacity: 0.9;
+}
+
+.rule-a {
+  font-size: 13px;
+  color: #A899C0 !important;
+  line-height: 1.75;
+}
+
+/* ── FINALE ── */
+.finale {
+  text-align: center;
+  padding: 100px 32px 80px;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.finale::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 100% at 50% 50%, rgba(120,80,200,0.1) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.finale-inner { position: relative; z-index: 1; }
+
+.finale h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(34px, 6vw, 54px);
+  font-weight: 300;
+  color: #EDE8F5 !important;
+  line-height: 1.15;
+  margin-bottom: 16px;
+}
+
+.finale h2 em {
+  font-style: italic;
+  color: #C4B0E8 !important;
+}
+
+.finale p {
+  font-size: 13px;
+  color: #5E5470 !important;
+  margin-bottom: 44px;
+  letter-spacing: 0.3px;
+}
+
+.finale-btn {
+  display: inline-block;
+  padding: 18px 56px;
+  border-radius: 100px;
+  background: linear-gradient(135deg, #8B60C8, #6A48A8);
+  color: #EDE8F5;
+  text-decoration: none;
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  font-weight: 400;
+  font-family: 'Jost', sans-serif;
+  box-shadow: 0 8px 40px rgba(120,80,200,0.35);
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+
+.finale-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 50px rgba(120,80,200,0.45);
+}
+
+@media (max-width: 640px) {
+  .rhythm-grid { grid-template-columns: 1fr; }
+  .rule { grid-template-columns: 1fr; gap: 8px; }
+  .tier-head { flex-direction: column; }
+  .cost-num { text-align: left; }
+  .cost-period { text-align: left; }
+  .tier { padding: 28px 22px; }
+}
+</style>
+</head>
+<body style="background:#0D0A12 !important; color:#EDE8F5 !important;">
+
+<!-- HERO -->
+<div class="hero">
+  <div class="aurora a1"></div>
+  <div class="aurora a2"></div>
+  <div class="aurora a3"></div>
+  <div class="center-glow"></div>
+  <div class="hero-inner">
+    <div class="hero-tag">Private Voice Channel — Member Guide</div>
+    <h1>Before<br>you<br><em>sleep.</em></h1>
+    <div class="shimmer-line"></div>
+    <p class="hero-sub">This is a private space. A quiet one. Read this once and you will always know exactly what to expect and when.</p>
+    <div class="scroll-cue">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </div>
+</div>
+
+<!-- WHAT'S INSIDE -->
+<div class="section">
+  <div class="wrap">
+    <div class="tag">What's inside</div>
+    <h2>Voice drops, slow audio,<br><em>before-sleep moments.</em></h2>
+    <p class="body-text">Soft voice content released through the week. Themed drops you vote on. Occasional short stories to listen to as you wish. All of it private.</p>
+  </div>
+</div>
+
+<!-- WEEKLY RHYTHM -->
+<div class="section">
+  <div class="wrap">
+    <div class="tag">Your weekly rhythm</div>
+    <h2>What happens <em>every week</em></h2>
+    <p class="body-text">Three moments in the week. Simple, consistent, quiet.</p>
+
+    <div class="rhythm-grid">
+      <div class="rhythm-card">
+        <div class="r-day">During the week</div>
+        <span class="r-icon">🎙️</span>
+        <div class="r-title">ASMR Stories</div>
+        <div class="r-desc">1–3 short voice stories posted through the week. Listen whenever. Disappear after 24 hours.</div>
+      </div>
+      <div class="rhythm-card highlight">
+        <div class="r-day">Every Thursday</div>
+        <span class="r-icon">🗳️</span>
+        <div class="r-title">Poll Opens</div>
+        <div class="r-desc">Vote the theme for Saturday's voice drop. You choose — whisper, rain, walk, night scene, whatever is offered.</div>
+      </div>
+      <div class="rhythm-card highlight">
+        <div class="r-day">Every Saturday</div>
+        <span class="r-icon">🌙</span>
+        <div class="r-title">Voice Drop</div>
+        <div class="r-desc">1–3 min voice recording. The poll winner. Stays for the full month then archived.</div>
+      </div>
+    </div>
+
+    <p class="body-note">ASMR stories disappear after 24 hours. The Saturday drop stays through the month then moves to archive.</p>
+    <p class="body-note"><strong>The poll is the only vote that matters here.</strong> Thursday it opens. Saturday it delivers. One vote per person.</p>
+  </div>
+</div>
+
+<!-- ACCESS LEVELS -->
+<div class="section">
+  <div class="wrap">
+    <div class="tag">Access levels</div>
+    <h2>Choose what <em>fits you</em></h2>
+    <p class="body-text">Four ways to be here. Start where you want. Each one is independent.</p>
+
+    <div class="tiers">
+
+      <div class="tier t1">
+        <div class="tier-head">
+          <div>
+            <div class="tier-badge">Entry</div>
+            <div class="tier-name">Weekly Access</div>
+          </div>
+          <div>
+            <div class="cost-num">$3</div>
+            <div class="cost-period">per week</div>
+          </div>
+        </div>
+        <p class="tier-desc">The core experience. Weekly ASMR stories, Thursday poll, Saturday voice drop. What you hear this week will not be here next month.</p>
+        <ul class="tier-list">
+          <li>1–3 ASMR voice stories per week — 24 hour window</li>
+          <li>Thursday poll — you vote the theme</li>
+          <li>Saturday voice drop — 1 to 3 minutes, poll winner</li>
+        </ul>
+        <a href="#JOIN-ASMR-WEEKLY-LINK" class="tier-btn">Join Weekly →</a>
+      </div>
+
+      <div class="tier t2">
+        <div class="tier-head">
+          <div>
+            <div class="tier-badge">Standalone — no weekly needed</div>
+            <div class="tier-name">Monthly Archive</div>
+          </div>
+          <div>
+            <div class="cost-num">$9</div>
+            <div class="cost-period">per month</div>
+          </div>
+        </div>
+        <p class="tier-desc">Four voice drops — one per week — preserved and always available. Independent from the weekly subscription. Buy it on its own, keep it as long as you stay subscribed.</p>
+        <ul class="tier-list">
+          <li>4 voice drops per month — 1 to 3 minutes each</li>
+          <li>All past months available in one place</li>
+          <li>Independent — does not require Weekly Access</li>
+          <li>Access continues as long as monthly subscription is active</li>
+        </ul>
+        <a href="#JOIN-ASMR-ARCHIVE-LINK" class="tier-btn">Get Monthly Archive →</a>
+      </div>
+
+      <div class="tier t3">
+        <div class="tier-head">
+          <div>
+            <div class="tier-badge">Longer sessions</div>
+            <div class="tier-name">Full Session</div>
+          </div>
+          <div>
+            <div class="cost-num" style="font-size:20px;padding-top:8px;">Per piece</div>
+            <div class="cost-period">5–10 minutes</div>
+          </div>
+        </div>
+        <p class="tier-desc">A complete voice session — 5 to 10 minutes. Priced per piece. Not included in Weekly. Available when released. Ask in chat if you want to know what is coming.</p>
+        <ul class="tier-list">
+          <li>5–10 min voice recording — full session length</li>
+          <li>Priced individually — separate from any subscription</li>
+          <li>One-time purchase — yours to keep</li>
+        </ul>
+        <a href="#JOIN-ASMR-SESSION-LINK" class="tier-btn">See Available Sessions →</a>
+      </div>
+
+      <div class="tier t4">
+        <div class="tier-head">
+          <div>
+            <div class="tier-badge">Personalized — by request only</div>
+            <div class="tier-name">Custom ASMR</div>
+          </div>
+          <div>
+            <div class="cost-num" style="font-size:20px;padding-top:8px;">Request</div>
+            <div class="cost-period">via paid chat</div>
+          </div>
+        </div>
+        <p class="tier-desc">Your name. Your scenario. Recorded for you only. Everything is discussed in Paid Chat first — what you want to hear, the tone, the length. I decide if I agree. Price is set by me and paid before I record anything.</p>
+        <ul class="tier-list">
+          <li>Fully personalized — your name included</li>
+          <li>Your chosen scenario and tone</li>
+          <li>Discussed and agreed in Paid Chat before recording</li>
+          <li>Price set by me — paid before creation</li>
+          <li>I decide whether I accept the request</li>
+        </ul>
+        <a href="#JOIN-CHAT-LINK" class="tier-btn">Request via Chat →</a>
+      </div>
+
+      <!-- VOICE TALK TIER -->
+      <div class="tier t1" style="background:#13101C !important;">
+        <div class="tier-head">
+          <div>
+            <div class="tier-badge">One time — 5 minutes — pre-recorded</div>
+            <div class="tier-name">Voice Talk</div>
+          </div>
+          <div>
+            <div class="cost-num" style="font-size:20px;padding-top:8px;">$15–25</div>
+            <div class="cost-period">per session</div>
+          </div>
+        </div>
+        <p class="tier-desc">You pick a scenario. You submit your name and any detail you want included. I record 5 minutes just for you and deliver it as an audio file. No live call. No real-time. Just you and the voice.</p>
+        <p class="tier-desc" style="font-size:12px; opacity:0.6; margin-top:-10px;">Choose one scenario below. Submit via Paid Chat. Pay before delivery.</p>
+
+        <!-- SCENARIO GRID -->
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:24px 0;">
+
+          <div style="background:#1A1628 !important; border:1px solid rgba(180,150,230,0.15); border-radius:14px; padding:20px 18px;">
+            <div style="font-size:9px; letter-spacing:3px; text-transform:uppercase; color:#8B6FBB !important; margin-bottom:8px; font-weight:400;">Scenario 01</div>
+            <div style="font-family:'Cormorant Garamond',serif; font-size:20px; font-weight:300; color:#EDE8F5 !important; margin-bottom:6px;">Dominant</div>
+            <div style="font-size:12px; color:#A899C0 !important; line-height:1.6; margin-bottom:10px; font-style:italic;">"You don't ask. You listen."</div>
+            <div style="font-size:11.5px; color:#5E5470 !important; line-height:1.65;">She is in control from the first word. Commands, presence, silence used as a weapon. You follow or you don't — but she won't wait.</div>
+          </div>
+
+          <div style="background:#1A1628 !important; border:1px solid rgba(180,150,230,0.15); border-radius:14px; padding:20px 18px;">
+            <div style="font-size:9px; letter-spacing:3px; text-transform:uppercase; color:#8B6FBB !important; margin-bottom:8px; font-weight:400;">Scenario 02</div>
+            <div style="font-family:'Cormorant Garamond',serif; font-size:20px; font-weight:300; color:#EDE8F5 !important; margin-bottom:6px;">Sensual</div>
+            <div style="font-size:12px; color:#A899C0 !important; line-height:1.6; margin-bottom:10px; font-style:italic;">"Close. Slow. Just you."</div>
+            <div style="font-size:11.5px; color:#5E5470 !important; line-height:1.65;">Your name, used slowly. Soft pauses. The kind of voice that makes you feel seen without saying much. Intimate and unhurried.</div>
+          </div>
+
+          <div style="background:#1A1628 !important; border:1px solid rgba(180,150,230,0.15); border-radius:14px; padding:20px 18px;">
+            <div style="font-size:9px; letter-spacing:3px; text-transform:uppercase; color:#8B6FBB !important; margin-bottom:8px; font-weight:400;">Scenario 03</div>
+            <div style="font-family:'Cormorant Garamond',serif; font-size:20px; font-weight:300; color:#EDE8F5 !important; margin-bottom:6px;">Mama</div>
+            <div style="font-size:12px; color:#A899C0 !important; line-height:1.6; margin-bottom:10px; font-style:italic;">"Warm. Safe. Rest now."</div>
+            <div style="font-size:11.5px; color:#5E5470 !important; line-height:1.65;">Nurturing, calm, no expectations. She talks and you let go. The voice that tells you everything is fine and means it.</div>
+          </div>
+
+          <div style="background:#1A1628 !important; border:1px solid rgba(180,150,230,0.15); border-radius:14px; padding:20px 18px;">
+            <div style="font-size:9px; letter-spacing:3px; text-transform:uppercase; color:#8B6FBB !important; margin-bottom:8px; font-weight:400;">Scenario 04</div>
+            <div style="font-family:'Cormorant Garamond',serif; font-size:20px; font-weight:300; color:#EDE8F5 !important; margin-bottom:6px;">Badass</div>
+            <div style="font-size:12px; color:#A899C0 !important; line-height:1.6; margin-bottom:10px; font-style:italic;">"She doesn't need you. She chose this."</div>
+            <div style="font-size:11.5px; color:#5E5470 !important; line-height:1.65;">Sharp. Confident. Says exactly what she thinks with zero apology. No softening. The voice of a woman who has nothing to prove.</div>
+          </div>
+
+          <div style="background:#1A1628 !important; border:1px solid rgba(180,150,230,0.15); border-radius:14px; padding:20px 18px;">
+            <div style="font-size:9px; letter-spacing:3px; text-transform:uppercase; color:#8B6FBB !important; margin-bottom:8px; font-weight:400;">Scenario 05</div>
+            <div style="font-family:'Cormorant Garamond',serif; font-size:20px; font-weight:300; color:#EDE8F5 !important; margin-bottom:6px;">Soft</div>
+            <div style="font-size:12px; color:#A899C0 !important; line-height:1.6; margin-bottom:10px; font-style:italic;">"Gentle. Present. No rush."</div>
+            <div style="font-size:11.5px; color:#5E5470 !important; line-height:1.65;">Quiet reassurance. The voice that holds space without pressure. For when you need calm more than anything else.</div>
+          </div>
+
+          <div style="background:#1A1628 !important; border:1px solid rgba(180,150,230,0.15); border-radius:14px; padding:20px 18px;">
+            <div style="font-size:9px; letter-spacing:3px; text-transform:uppercase; color:#8B6FBB !important; margin-bottom:8px; font-weight:400;">Scenario 06</div>
+            <div style="font-family:'Cormorant Garamond',serif; font-size:20px; font-weight:300; color:#EDE8F5 !important; margin-bottom:6px;">Strict</div>
+            <div style="font-size:12px; color:#A899C0 !important; line-height:1.6; margin-bottom:10px; font-style:italic;">"Rules exist for a reason."</div>
+            <div style="font-size:11.5px; color:#5E5470 !important; line-height:1.65;">Precise, cold, deliberate. Every word placed exactly. No warmth unless earned. The voice that makes you want to behave.</div>
+          </div>
+
+        </div>
+
+        <div style="background:rgba(140,100,200,0.06); border:1px solid rgba(180,150,230,0.1); border-radius:10px; padding:16px 18px; margin-bottom:24px; font-size:12px; color:#5E5470 !important; line-height:1.7;">
+          <strong style="color:#8B6FBB !important; font-weight:400;">How it works —</strong> Choose a scenario. Go to Paid Chat. Send your name and any specific detail you want included. I confirm and send payment link. You pay. I record and deliver your audio file. No live call. No real-time session. Delivery within agreed timeframe.
+        </div>
+
+        <a href="#JOIN-CHAT-LINK" class="tier-btn">Choose a Scenario →</a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- RULES -->
+<div class="section">
+  <div class="wrap">
+    <div class="tag">Before you join</div>
+    <h2>Things to <em>know first</em></h2>
+    <p class="body-text">Simple. Read once.</p>
+
+    <div class="rules">
+      <div class="rule">
+        <div class="rule-q">Can I save or share content?</div>
+        <div class="rule-a">No. Recordings are private and personal. Saving, sharing, or redistributing in any form means immediate permanent removal. No exceptions, no refund.</div>
+      </div>
+      <div class="rule">
+        <div class="rule-q">Is Archive linked to Weekly?</div>
+        <div class="rule-a">No. Monthly Archive is completely independent. You can subscribe to Archive without ever joining Weekly. Both run separately.</div>
+      </div>
+      <div class="rule">
+        <div class="rule-q">What happens when I cancel?</div>
+        <div class="rule-a">Access stops at the end of the current period. Resubscribe anytime and access returns immediately.</div>
+      </div>
+      <div class="rule">
+        <div class="rule-q">Are ASMR stories recorded?</div>
+        <div class="rule-a">They are posted live and disappear after 24 hours. They do not go into the archive. The Saturday voice drop is what gets archived.</div>
+      </div>
+      <div class="rule">
+        <div class="rule-q">How do I request a custom recording?</div>
+        <div class="rule-a">Through Paid Chat only. I decide whether I agree. If yes — I name the price, you pay before I record. No exceptions to this order.</div>
+      </div>
+      <div class="rule">
+        <div class="rule-q">I'm already in the Barefoot channel.</div>
+        <div class="rule-a">Type BAREFOOT in the bot and receive 30% off your first week here.</div>
+      </div>
+      <div class="rule">
+        <div class="rule-q">When is the Saturday drop posted?</div>
+        <div class="rule-a">Every Saturday. It stays available through the end of the month, then moves to archive.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FINALE -->
+<div class="finale">
+  <div class="finale-inner">
+    <h2>Put on headphones.<br><em>You are already here.</em></h2>
+    <p>Start with Weekly for $3 — or go straight to Archive.</p>
+    <a href="#BOT-ASMR-LINK" class="finale-btn">Open the Bot to Join</a>
+  </div>
+</div>
+
+</body>
+</html>

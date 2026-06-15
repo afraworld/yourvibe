@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="background:#080510 !important;">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,17 +11,17 @@
 html { scroll-behavior: smooth; }
 
 :root {
-  --bg:        #FDF8F8;
-  --card:      #FFFFFF;
-  --text:      #1A1A1A;
-  --soft:      #6B5B5B;
-  --muted:     #B09898;
-  --rose:      #C8898A;
-  --rose-deep: #8A5252;
-  --rose-pale: #F5E8E8;
-  --line:      #EEE0E0;
-  --shadow:    0 4px 32px rgba(180,120,120,0.08), 0 1px 4px rgba(180,120,120,0.04);
-  --shadow-lg: 0 16px 64px rgba(180,120,120,0.12), 0 4px 16px rgba(180,120,120,0.06);
+  --bg:        #080510;
+  --card:      #110D1A;
+  --text:      #EDE6F5;
+  --soft:      #A090B8;
+  --muted:     #5A4E70;
+  --rose:      #8B5E8E;
+  --rose-deep: #B08ABE;
+  --rose-pale: rgba(139,94,142,0.12);
+  --line:      rgba(139,94,142,0.12);
+  --shadow:    0 4px 32px rgba(80,40,100,0.2), 0 1px 4px rgba(80,40,100,0.1);
+  --shadow-lg: 0 16px 64px rgba(80,40,100,0.3), 0 4px 16px rgba(80,40,100,0.15);
 }
 
 body {
@@ -34,6 +34,7 @@ body {
 }
 
 .hero {
+  padding-top: 120px !important;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -125,7 +126,7 @@ body {
 .hero-line {
   width: 40px;
   height: 1px;
-  background: var(--rose);
+  background: #8B5E8E !important;
   margin: 28px auto;
   opacity: 0.5;
 }
@@ -265,7 +266,7 @@ body {
   line-height: 1.85;
   margin-bottom: 12px;
   padding-left: 16px;
-  border-left: 2px solid var(--rose-pale);
+  border-left: 2px solid rgba(139,94,142,0.3);
 }
 
 .body-note strong {
@@ -379,7 +380,7 @@ body {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: var(--rose);
+  background: #8B5E8E !important;
   flex-shrink: 0;
   margin-top: 7px;
 }
@@ -425,7 +426,7 @@ body {
 
 .rule-q {
   font-size: 12.5px;
-  color: var(--rose-deep);
+  color: #B08ABE !important;
   font-weight: 400;
   line-height: 1.5;
 }
@@ -504,7 +505,14 @@ body {
 }
 </style>
 </head>
-<body>
+<body style="background:#080510 !important; color:#EDE6F5 !important;">
+<nav style="position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:18px 32px;background:rgba(8,5,16,0.88);backdrop-filter:blur(12px);border-bottom:1px solid rgba(139,94,142,0.1);">
+  <a href="index.html" style="font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:300;letter-spacing:2px;color:#EDE6F5;text-decoration:none;">Your Vibe Is</a>
+  <div style="display:flex;gap:8px;">
+    <span style="padding:8px 16px;border-radius:100px;font-size:9px;letter-spacing:2px;text-transform:uppercase;background:rgba(139,94,142,0.2);border:1px solid rgba(139,94,142,0.4);color:#C4A0D0;font-family:Jost,sans-serif;">👣 Barefoot</span>
+    <a href="asmr-guide.html" style="padding:8px 16px;border-radius:100px;font-size:9px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;background:rgba(140,100,200,0.08);border:1px solid rgba(140,100,200,0.2);color:#C4B0E8;font-family:Jost,sans-serif;">🎧 Voice</a>
+  </div>
+</nav>
 
 <div class="hero">
   <div class="orb orb-1"></div>
